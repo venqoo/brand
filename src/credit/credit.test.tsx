@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
+import { imprintRoles } from './copy.js'
 import { Credit, type CreditVariant } from './credit.js'
 import { ImprintCredit, type ImprintCreditVariant } from './imprint.js'
 
@@ -79,6 +80,42 @@ describe('ImprintCredit', () => {
     expect(custom).not.toContain('Development')
 
     expect(renderToStaticMarkup(<ImprintCredit variant="card" roles={[]} />)).not.toContain('<dl')
+  })
+
+  it('is English by default and marks its language', () => {
+    for (const variant of imprintVariants) {
+      expect(renderToStaticMarkup(<ImprintCredit variant={variant} />)).toContain('lang="en"')
+    }
+  })
+
+  it('renders the section in German', () => {
+    const html = renderToStaticMarkup(<ImprintCredit lang="de" />)
+    expect(html).toContain('lang="de"')
+    expect(html).toContain('<h2 class="vq-credit__heading">Konzept, Design &amp; Entwicklung</h2>')
+    expect(html).toContain(
+      'Diese Website wurde von der <a class="vq-credit__textlink" href="https://www.venqoo.com" target="_blank" rel="noopener">venqoo GmbH</a>, einem Softwareunternehmen aus Würzburg, gestaltet und entwickelt.',
+    )
+    expect(html).toContain('<span>97070 Würzburg</span><span>Deutschland</span>')
+    expect(html).not.toContain('Germany')
+  })
+
+  it('renders the card in German with German default roles', () => {
+    const html = renderToStaticMarkup(<ImprintCredit variant="card" lang="de" />)
+    expect(html).toContain('lang="de"')
+    expect(html).toContain('Umgesetzt von')
+    expect(html).toContain('<dt>Entwicklung</dt><dd>Frontend &amp; Backend</dd>')
+    expect(html).toContain('Würzburg · Deutschland')
+    expect(html).not.toContain('Development')
+
+    const custom = renderToStaticMarkup(
+      <ImprintCredit variant="card" lang="de" roles={[{ term: 'App', detail: 'iOS & Android' }]} />,
+    )
+    expect(custom).toContain('<dt>App</dt>')
+    expect(custom).not.toContain('Entwicklung')
+  })
+
+  it('has a German entry for every English default role', () => {
+    expect(imprintRoles.de).toHaveLength(imprintRoles.en.length)
   })
 
   it('lets children replace the sentence on the section', () => {

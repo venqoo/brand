@@ -36,6 +36,7 @@ import '@venqoo/brand/credit.css'
 
 // imprint / legal notice
 <ImprintCredit />                            // heading, sentence, address
+<ImprintCredit lang="de" />                  // the same, in German
 <ImprintCredit
   variant="card"
   roles={[
@@ -46,7 +47,7 @@ import '@venqoo/brand/credit.css'
 ```
 
 Every variant is a single link to `https://www.venqoo.com` that opens in a new
-tab. Copy is English only.
+tab. Footer copy is English only; the imprint credit also comes in German.
 
 ### `<Credit>` — footer credit
 
@@ -73,6 +74,12 @@ venqoo orange. The two pills bring their own surface and type.
 concept / design / development / operations; pass your own, or `[]` to hide it.
 `children` replaces the descriptive sentence on `section`, and `headingLevel`
 (2–4) matches the imprint's other headings.
+
+`lang` is `'en'` (default) or `'de'`. It sets the heading, sentence, eyebrow,
+country and default roles, and the root's `lang` attribute. Custom `roles` and
+`children` are yours to translate. The default lists are exported as
+`imprintRoles.en` / `imprintRoles.de` (`defaultRoles` is the English one), so a
+project can extend them.
 
 ### Shared props
 

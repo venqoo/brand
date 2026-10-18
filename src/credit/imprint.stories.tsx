@@ -56,9 +56,10 @@ const meta = {
   component: ImprintCredit,
   decorators: [onLegalNotice],
   parameters: { layout: 'fullscreen' },
-  args: { variant: 'section', theme: 'light', headingLevel: 2 },
+  args: { variant: 'section', theme: 'light', headingLevel: 2, lang: 'en' },
   argTypes: {
     variant: { control: 'inline-radio', options: ['section', 'card'] },
+    lang: { control: 'inline-radio', options: ['en', 'de'] },
     theme: { control: 'inline-radio', options: ['light', 'dark', 'auto'] },
     headingLevel: { control: 'inline-radio', options: [2, 3, 4] },
   },
@@ -73,7 +74,11 @@ export const SectionCustomText: Story = {
   args: { children: 'Relaunch, hosting and maintenance by venqoo GmbH.' },
 }
 
+export const SectionGerman: Story = { args: { lang: 'de' } }
+
 export const Card: Story = { args: { variant: 'card' } }
+
+export const CardGerman: Story = { args: { variant: 'card', lang: 'de' } }
 
 export const CardCustomRoles: Story = {
   args: {

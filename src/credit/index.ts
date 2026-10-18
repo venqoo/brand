@@ -1,5 +1,5 @@
-export type { ImprintRole } from './copy.js'
-export { defaultRoles } from './copy.js'
+export type { ImprintLang, ImprintRole } from './copy.js'
+export { defaultRoles, imprintRoles } from './copy.js'
 export type { CreditProps, CreditVariant } from './credit.js'
 export { Credit } from './credit.js'
 export type { ImprintCreditProps, ImprintCreditVariant } from './imprint.js'

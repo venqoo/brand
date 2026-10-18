@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { cx } from '../cx.js'
 import { UfoMark } from '../marks.js'
 import { VENQOO } from '../venqoo.js'
-import { defaultRoles, type ImprintRole, imprintCopy as t } from './copy.js'
+import { type ImprintLang, type ImprintRole, imprintCopy } from './copy.js'
 import { linkAttrs } from './link.js'
 import type { CreditBaseProps } from './types.js'
 
@@ -16,9 +16,11 @@ export interface ImprintCreditProps extends CreditBaseProps {
   variant?: ImprintCreditVariant
   /** Heading element for `section`; match the imprint's other section headings. */
   headingLevel?: 2 | 3 | 4
+  /** Language of the copy and the address: English (default) or German. */
+  lang?: ImprintLang
   /**
    * What venqoo was responsible for in this project, shown on `card`.
-   * Defaults to concept, design, development and operations; pass `[]` to hide the list.
+   * Defaults to concept, design, development and operations in `lang`; pass `[]` to hide the list.
    */
   roles?: readonly ImprintRole[]
   /** Replaces the descriptive sentence on `section`. */
@@ -30,12 +32,15 @@ export function ImprintCredit({
   variant = 'section',
   theme = 'light',
   headingLevel = 2,
-  roles = defaultRoles,
+  lang = 'en',
+  roles,
   className,
   href,
   newTab,
   children,
 }: ImprintCreditProps) {
+  const t = imprintCopy[lang]
+  const roleList = roles ?? t.roles
   const a = linkAttrs({ href, newTab })
   const rootClass = cx('vq-credit', `vq-credit--${variant}`, className)
   const Heading = `h${headingLevel}` as const
@@ -48,15 +53,15 @@ export function ImprintCredit({
 
   if (variant === 'card') {
     return (
-      <section className={rootClass} data-theme={theme} lang="en">
+      <section className={rootClass} data-theme={theme} lang={lang}>
         <span className="vq-credit__eyebrow">{t.eyebrow}</span>
         <a className="vq-credit__link vq-credit__logo" {...a}>
           <UfoMark className="vq-credit__mark" />
           <span className="vq-credit__wordmark">{VENQOO.name}</span>
         </a>
-        {roles.length > 0 && (
+        {roleList.length > 0 && (
           <dl className="vq-credit__roles">
-            {roles.map((role) => (
+            {roleList.map((role) => (
               <div className="vq-credit__role-item" key={role.term}>
                 <dt>{role.term}</dt>
                 <dd>{role.detail}</dd>
@@ -66,8 +71,7 @@ export function ImprintCredit({
         )}
         <address className="vq-credit__address">
           <span>
-            {VENQOO.legalName} · {VENQOO.street} · {VENQOO.postalCode} {VENQOO.city} ·{' '}
-            {VENQOO.country}
+            {VENQOO.legalName} · {VENQOO.street} · {VENQOO.postalCode} {VENQOO.city} · {t.country}
           </span>
           {siteLink}
         </address>
@@ -76,7 +80,7 @@ export function ImprintCredit({
   }
 
   return (
-    <section className={rootClass} data-theme={theme} lang="en">
+    <section className={rootClass} data-theme={theme} lang={lang}>
       <Heading className="vq-credit__heading">{t.heading}</Heading>
       <p className="vq-credit__body">
         {children ?? (
@@ -95,7 +99,7 @@ export function ImprintCredit({
         <span>
           {VENQOO.postalCode} {VENQOO.city}
         </span>
-        <span>{VENQOO.country}</span>
+        <span>{t.country}</span>
         <a
           className="vq-credit__textlink vq-credit__textlink--quiet vq-credit__address-gap"
           href={`mailto:${VENQOO.email}`}
