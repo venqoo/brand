@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
-import { defaultRoles, type ImprintRole, imprintCopy as t, VENQOO } from './copy.js'
-import { cx, linkAttrs } from './link.js'
-import { UfoMark } from './marks.js'
+import { cx } from '../cx.js'
+import { UfoMark } from '../marks.js'
+import { VENQOO } from '../venqoo.js'
+import { defaultRoles, type ImprintRole, imprintCopy as t } from './copy.js'
+import { linkAttrs } from './link.js'
 import type { CreditBaseProps } from './types.js'
 
 /**

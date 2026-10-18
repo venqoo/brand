@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
-import { footerCopy as t, VENQOO } from './copy.js'
-import { cx, linkAttrs } from './link.js'
-import { Heart, UfoMark } from './marks.js'
+import { cx } from '../cx.js'
+import { Heart, UfoMark } from '../marks.js'
+import { VENQOO } from '../venqoo.js'
+import { footerCopy as t } from './copy.js'
+import { linkAttrs } from './link.js'
 import type { CreditBaseProps } from './types.js'
 
 /**

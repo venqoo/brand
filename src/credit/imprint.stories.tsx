@@ -1,6 +1,6 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react-vite'
 import type { ReactNode } from 'react'
-import '../styles.css'
+import '../../credit.css'
 import { ImprintCredit } from './imprint.js'
 import type { CreditTheme } from './types.js'
 

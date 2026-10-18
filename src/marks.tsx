@@ -1,9 +1,10 @@
-import type { SVGProps } from 'react'
+import type { HTMLAttributes, SVGProps } from 'react'
+import { cx } from './cx.js'
+import { VENQOO } from './venqoo.js'
 
 /**
  * The venqoo UFO mark, inlined so it inherits `currentColor`.
- * Same artwork as `@venqoo/ui/brand` — copied, not imported, so this package
- * has no workspace dependency.
+ * Same artwork as `assets/venqoo-ufo-*.svg`.
  */
 export function UfoMark(props: SVGProps<SVGSVGElement>) {
   return (
@@ -31,5 +32,18 @@ export function Heart({ label, ...props }: SVGProps<SVGSVGElement> & { label: st
       <title>{label}</title>
       <path d="M12 21.3 3.6 13.2a5.2 5.2 0 0 1 7.4-7.4l1 1 1-1a5.2 5.2 0 0 1 7.4 7.4Z" />
     </svg>
+  )
+}
+
+/**
+ * The UFO mark next to the "venqoo" wordmark. Needs `@venqoo/brand/styles.css`
+ * for the wordmark face; sizes with the surrounding font size.
+ */
+export function Logo({ className, ...props }: HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span className={cx('vq-logo', className)} {...props}>
+      <UfoMark className="vq-logo__mark" />
+      <span className="vq-logo__wordmark">{VENQOO.name}</span>
+    </span>
   )
 }

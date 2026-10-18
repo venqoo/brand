@@ -1,4 +1,4 @@
-// Builds dist/: ESM + .d.ts via tsc, plus the single self-contained stylesheet.
+// Builds dist/: ESM + .d.ts via tsc, plus the two stylesheets.
 import { execFileSync } from 'node:child_process'
 import { copyFileSync, mkdirSync, rmSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -14,5 +14,5 @@ execFileSync('tsc', ['-p', 'tsconfig.build.json'], {
   shell: process.platform === 'win32',
 })
 mkdirSync(dist, { recursive: true })
-copyFileSync(resolve(root, 'styles.css'), resolve(dist, 'styles.css'))
+for (const css of ['styles.css', 'credit.css']) copyFileSync(resolve(root, css), resolve(dist, css))
 console.log('built @venqoo/brand → dist/')

@@ -1,7 +1,7 @@
 {
   "name": "@venqoo/brand",
   "version": "0.1.0",
-  "description": "venqoo brand assets and \"Made by venqoo\" credit components for websites and apps built by venqoo.",
+  "description": "venqoo brand kit: palette, type contract, marks and SVG assets, plus \"Made by venqoo\" credit components for sites and apps built by venqoo.",
   "license": "MIT",
   "author": "venqoo GmbH (https://www.venqoo.com)",
   "homepage": "https://github.com/venqoo/brand#readme",
@@ -13,6 +13,8 @@
   "keywords": [
     "venqoo",
     "brand",
+    "logo",
+    "colors",
     "credit",
     "footer",
     "impressum",
@@ -28,8 +30,10 @@
   ],
   "files": [
     "dist",
+    "assets",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "BRAND.md"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -39,7 +43,25 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./colors": {
+      "types": "./dist/colors.d.ts",
+      "default": "./dist/colors.js"
+    },
+    "./fonts": {
+      "types": "./dist/fonts.d.ts",
+      "default": "./dist/fonts.js"
+    },
+    "./marks": {
+      "types": "./dist/marks.d.ts",
+      "default": "./dist/marks.js"
+    },
+    "./credit": {
+      "types": "./dist/credit/index.d.ts",
+      "default": "./dist/credit/index.js"
+    },
     "./styles.css": "./dist/styles.css",
+    "./credit.css": "./dist/credit.css",
+    "./assets/*": "./assets/*",
     "./package.json": "./package.json"
   },
   "publishConfig": {
