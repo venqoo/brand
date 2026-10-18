@@ -16,6 +16,9 @@ export const footerCopy = {
 /** Languages the imprint credit is written in. */
 export type ImprintLang = 'en' | 'de'
 
+/** What the imprint credit says venqoo made: a website (default) or an app. */
+export type ImprintSubject = 'website' | 'app'
+
 export interface ImprintRole {
   /** What venqoo was responsible for, e.g. "Development". */
   term: string
@@ -25,8 +28,14 @@ export interface ImprintRole {
 
 interface ImprintCopy {
   heading: string
+  /** "This website" / "This app" — the sentence's subject. */
+  subject: Record<ImprintSubject, string>
+  /** Between the subject and the linked name "venqoo". */
   sentenceBefore: string
+  /** After the linked name, including the full stop. */
   sentenceAfter: string
+  /** Second sentence: what venqoo GmbH does. */
+  about: string
   eyebrow: string
   country: string
   roles: readonly ImprintRole[]
@@ -35,8 +44,11 @@ interface ImprintCopy {
 export const imprintCopy: Record<ImprintLang, ImprintCopy> = {
   en: {
     heading: 'Concept, design & development',
-    sentenceBefore: 'This website was designed and developed by',
-    sentenceAfter: ', a software company in Würzburg, Germany.',
+    subject: { website: 'This website', app: 'This app' },
+    sentenceBefore: 'was designed and developed by',
+    sentenceAfter: ', a software agency in Würzburg, Germany.',
+    about:
+      'venqoo GmbH builds apps, websites and custom software and advises companies on AI strategy and AI integration.',
     eyebrow: 'Built by',
     country: 'Germany',
     roles: [
@@ -48,8 +60,11 @@ export const imprintCopy: Record<ImprintLang, ImprintCopy> = {
   },
   de: {
     heading: 'Konzept, Design & Entwicklung',
-    sentenceBefore: 'Diese Website wurde von der',
-    sentenceAfter: ', einem Softwareunternehmen aus Würzburg, gestaltet und entwickelt.',
+    subject: { website: 'Diese Website', app: 'Diese App' },
+    sentenceBefore: 'wurde von',
+    sentenceAfter: ', einer Software-Agentur aus Würzburg, gestaltet und entwickelt.',
+    about:
+      'Die venqoo GmbH entwickelt Apps, Websites und individuelle Software und berät Unternehmen zu KI-Strategie und KI-Integration.',
     eyebrow: 'Umgesetzt von',
     country: 'Deutschland',
     roles: [

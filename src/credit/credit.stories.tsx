@@ -50,10 +50,11 @@ const meta = {
   component: Credit,
   decorators: [inFooter],
   parameters: { layout: 'fullscreen' },
-  args: { variant: 'heart', theme: 'light' },
+  args: { variant: 'heart', theme: 'light', site: 'baeckerei-muster.example' },
   argTypes: {
     variant: { control: 'inline-radio', options: footerVariants },
     theme: { control: 'inline-radio', options: ['light', 'dark', 'auto'] },
+    rel: { control: 'inline-radio', options: ['nofollow', 'follow', 'sponsored'] },
   },
 } satisfies Meta<typeof Credit>
 

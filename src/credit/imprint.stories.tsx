@@ -56,12 +56,21 @@ const meta = {
   component: ImprintCredit,
   decorators: [onLegalNotice],
   parameters: { layout: 'fullscreen' },
-  args: { variant: 'section', theme: 'light', headingLevel: 2, lang: 'en' },
+  args: {
+    variant: 'section',
+    theme: 'light',
+    headingLevel: 2,
+    lang: 'en',
+    subject: 'website',
+    site: 'baeckerei-muster.example',
+  },
   argTypes: {
     variant: { control: 'inline-radio', options: ['section', 'card'] },
     lang: { control: 'inline-radio', options: ['en', 'de'] },
+    subject: { control: 'inline-radio', options: ['website', 'app'] },
     theme: { control: 'inline-radio', options: ['light', 'dark', 'auto'] },
     headingLevel: { control: 'inline-radio', options: [2, 3, 4] },
+    rel: { control: 'inline-radio', options: ['follow', 'nofollow', 'sponsored'] },
   },
 } satisfies Meta<typeof ImprintCredit>
 
@@ -69,6 +78,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Section: Story = {}
+
+export const SectionApp: Story = { args: { subject: 'app', lang: 'de' } }
 
 export const SectionCustomText: Story = {
   args: { children: 'Relaunch, hosting and maintenance by venqoo GmbH.' },

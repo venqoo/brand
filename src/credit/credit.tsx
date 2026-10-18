@@ -18,15 +18,29 @@ export interface CreditProps extends CreditBaseProps {
   variant?: CreditVariant
 }
 
-/** Footer credit: one link to venqoo in the style of your choice. */
+/**
+ * Footer credit: one link to venqoo in the style of your choice. Pass `site` so
+ * visits can be attributed to the client site; the link is `nofollow` unless
+ * `rel` says otherwise.
+ */
 export function Credit({
   variant = 'heart',
   theme = 'light',
   className,
   href,
+  site,
+  rel,
   newTab,
 }: CreditProps) {
-  const a = linkAttrs({ href, newTab })
+  const a = linkAttrs({
+    href,
+    site,
+    rel,
+    newTab,
+    placement: 'footer',
+    variant,
+    defaultRel: 'nofollow',
+  })
   const name = <span className="vq-credit__name">{VENQOO.name}</span>
 
   let content: ReactNode

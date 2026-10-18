@@ -31,13 +31,15 @@ import { Credit, ImprintCredit } from '@venqoo/brand/credit'
 import '@venqoo/brand/credit.css'
 
 // footer
-<Credit />                                   // Made with ♥ by venqoo in Würzburg
-<Credit variant="pill" theme="dark" />       // outline pill on a dark footer
+<Credit site="baeckerei-muster.de" />                      // Made with ♥ by venqoo in Würzburg
+<Credit site="baeckerei-muster.de" variant="pill" theme="dark" />
 
 // imprint / legal notice
-<ImprintCredit />                            // heading, sentence, address
-<ImprintCredit lang="de" />                  // the same, in German
+<ImprintCredit site="baeckerei-muster.de" />               // heading, sentence, address
+<ImprintCredit site="baeckerei-muster.de" lang="de" />     // the same, in German
+<ImprintCredit site="baeckerei-muster.de" subject="app" /> // "This app was designed…"
 <ImprintCredit
+  site="baeckerei-muster.de"
   variant="card"
   roles={[
     { term: 'App', detail: 'iOS & Android' },
@@ -46,8 +48,10 @@ import '@venqoo/brand/credit.css'
 />
 ```
 
-Every variant is a single link to `https://www.venqoo.com` that opens in a new
-tab. Footer copy is English only; the imprint credit also comes in German.
+Every variant links to `https://www.venqoo.com` and opens in a new tab. Pass
+`site` on every credit: it tags the link so venqoo can see where a visitor came
+from (see [Attribution and search engines](#attribution-and-search-engines)).
+Footer copy is English only; the imprint credit also comes in German.
 
 ### `<Credit>` — footer credit
 
@@ -81,18 +85,49 @@ country and default roles, and the root's `lang` attribute. Custom `roles` and
 `imprintRoles.en` / `imprintRoles.de` (`defaultRoles` is the English one), so a
 project can extend them.
 
+`subject` is `'website'` (default) or `'app'` and sets the first sentence's
+subject: "This website was designed and developed by venqoo, a software agency
+in Würzburg, Germany." becomes "This app was…" on an app's legal screen. A
+second sentence says what venqoo GmbH does; `children` replaces both.
+
 ### Shared props
 
-| Prop        | Type                          | Default                  |
-| ----------- | ----------------------------- | ------------------------ |
-| `theme`     | `'light' \| 'dark' \| 'auto'` | `'light'`                |
-| `href`      | `string`                      | `https://www.venqoo.com` |
-| `newTab`    | `boolean`                     | `true`                   |
-| `className` | `string`                      | —                        |
+| Prop        | Type                                   | Default                                       |
+| ----------- | -------------------------------------- | --------------------------------------------- |
+| `site`      | `string`                               | — (set it: the client site's host)            |
+| `rel`       | `'nofollow' \| 'follow' \| 'sponsored'` | `'nofollow'` on `Credit`, `'follow'` on `ImprintCredit` |
+| `theme`     | `'light' \| 'dark' \| 'auto'`          | `'light'`                                     |
+| `href`      | `string`                               | `https://www.venqoo.com`                      |
+| `newTab`    | `boolean`                              | `true`                                        |
+| `className` | `string`                               | —                                             |
 
 `theme` switches the colour tokens: use `dark` for a dark footer, `auto` on
 sites with a colour-scheme toggle (it follows `prefers-color-scheme`). The
 component cannot see what it sits on, so `light` is the predictable default.
+
+### Attribution and search engines
+
+The package runs no script and loads nothing; the link is the whole tracker.
+With `site="baeckerei-muster.de"`, a footer credit links to
+
+```
+https://www.venqoo.com?utm_source=baeckerei-muster.de&utm_medium=credit&utm_campaign=footer&utm_content=heart
+```
+
+`utm_source` is the site (normalised to its bare host), `utm_campaign` the
+placement (`footer` or `imprint`) and `utm_content` the variant, so analytics
+on venqoo.com show which site, placement and design a visitor clicked. Without
+`site` the link is untagged; the Referer header then only names the origin, and
+not at all on sites with a strict `Referrer-Policy`. Existing query parameters
+and fragments on a custom `href` are kept. `creditHref()` builds the same URL
+for links you render yourself.
+
+`rel` says how search engines should read the link. Google asks for links that
+sit in the template of many sites to be qualified, so the footer credit is
+`nofollow` by default; the imprint credit is one editorial sentence naming the
+maker and stays `follow`. Both can be overridden per project, and `sponsored` is
+for credits that are part of a deal, such as a discount for keeping them. Links
+that open in a new tab always carry `noopener`, never `noreferrer`.
 
 ### Styling the credit
 

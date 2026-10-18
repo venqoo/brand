@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { cx } from '../cx.js'
 import { UfoMark } from '../marks.js'
 import { VENQOO } from '../venqoo.js'
-import { type ImprintLang, type ImprintRole, imprintCopy } from './copy.js'
+import { type ImprintLang, type ImprintRole, type ImprintSubject, imprintCopy } from './copy.js'
 import { linkAttrs } from './link.js'
 import type { CreditBaseProps } from './types.js'
 
@@ -18,6 +18,8 @@ export interface ImprintCreditProps extends CreditBaseProps {
   headingLevel?: 2 | 3 | 4
   /** Language of the copy and the address: English (default) or German. */
   lang?: ImprintLang
+  /** What the sentence on `section` says venqoo made: a `website` (default) or an `app`. */
+  subject?: ImprintSubject
   /**
    * What venqoo was responsible for in this project, shown on `card`.
    * Defaults to concept, design, development and operations in `lang`; pass `[]` to hide the list.
@@ -27,21 +29,36 @@ export interface ImprintCreditProps extends CreditBaseProps {
   children?: ReactNode
 }
 
-/** Impressum / legal-notice credit naming venqoo GmbH as the maker of the site. */
+/**
+ * Impressum / legal-notice credit naming venqoo GmbH as the maker of the site or
+ * app. Pass `site` so visits can be attributed to the client site. Its links are
+ * followed unless `rel` says otherwise: one editorial sentence, not a template.
+ */
 export function ImprintCredit({
   variant = 'section',
   theme = 'light',
   headingLevel = 2,
   lang = 'en',
+  subject = 'website',
   roles,
   className,
   href,
+  site,
+  rel,
   newTab,
   children,
 }: ImprintCreditProps) {
   const t = imprintCopy[lang]
   const roleList = roles ?? t.roles
-  const a = linkAttrs({ href, newTab })
+  const a = linkAttrs({
+    href,
+    site,
+    rel,
+    newTab,
+    placement: 'imprint',
+    variant,
+    defaultRel: 'follow',
+  })
   const rootClass = cx('vq-credit', `vq-credit--${variant}`, className)
   const Heading = `h${headingLevel}` as const
 
@@ -85,11 +102,11 @@ export function ImprintCredit({
       <p className="vq-credit__body">
         {children ?? (
           <>
-            {t.sentenceBefore}{' '}
+            {t.subject[subject]} {t.sentenceBefore}{' '}
             <a className="vq-credit__textlink" {...a}>
-              {VENQOO.legalName}
+              {VENQOO.name}
             </a>
-            {t.sentenceAfter}
+            {t.sentenceAfter} {t.about}
           </>
         )}
       </p>
