@@ -1,0 +1,9 @@
+node_modules/
+dist/
+storybook-static/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+.idea/
+.vscode/
